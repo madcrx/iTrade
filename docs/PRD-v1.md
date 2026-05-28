@@ -276,13 +276,35 @@ Retail investors want to participate in automated, algorithm-driven trading but 
 
 ---
 
-## 12. Open Questions for Stakeholder Review
+## 12. Decisions Log
 
-1. **ASX real-time data**: Stake's community wrapper (stake-python) has no SLA. Accept 15-min delayed data for Phase 1B, or fund a paid ASX data feed from day one?
-2. **$20 minimum viability**: Stake's $3 flat fee = 15% cost on a $20 trade. Should we enforce a soft minimum of $50–$100 to protect users from fee erosion?
-3. **Strategy building UI**: Phase 1 uses pre-built strategies. Should Phase 2 include a no-code strategy builder (drag-and-drop indicators), or code-first only?
-4. **Regulatory position**: Will iTrade apply for an AFSL (Australian Financial Services Licence) or operate strictly as a tool (not an advisor)?
-5. **Crypto exchange priority**: Binance vs Kraken for Phase 2 — Binance has more liquidity; Kraken has stronger regulatory standing in AU/US. Which to prioritise?
+| # | Question | Decision | Notes |
+|---|----------|----------|-------|
+| 1 | ASX real-time data | **Accept 15-min delay** | Use yfinance + Stake community wrapper; revisit if user demand requires real-time |
+| 2 | $20 minimum viability | **Enforce soft minimum $50–$100** | UI warning when account balance < $100; prevents fee erosion (Stake $3 = 6% on $50, 3% on $100) |
+| 3 | Strategy building UI | **No-code builder in Phase 2** | Drag-and-drop indicator blocks; code-first remains available for advanced users |
+| 4 | Regulatory position | **Research AFSL first** | Pending research — see Section 14 |
+| 5 | Crypto exchange | **Research Kraken first** | Pending research — see Section 14 |
+
+---
+
+## 14. Research Pending
+
+### 14.1 AFSL (Australian Financial Services Licence)
+*Research in progress — findings to be incorporated before Phase 1B launch.*
+
+Key questions being investigated:
+- Does executing trades via user's own broker credentials require an AFSL?
+- Cost, timeline, and authorised representative alternative
+- Comparable AU fintech apps and their licensing approach
+
+### 14.2 Kraken vs Binance (Phase 2 Crypto Exchange)
+*Research in progress — findings to be incorporated before Phase 2 planning.*
+
+Key questions being investigated:
+- API capabilities, fees, minimum order sizes
+- Australian user availability and regulatory standing
+- Python SDK quality and community support
 
 ---
 
