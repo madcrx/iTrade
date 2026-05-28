@@ -1,1 +1,5 @@
+I would like to build a trading platform that uses AI to do trades automatically across stocks, commodities and crypto. You should be able to start with a minimum of $20 to get started and build up from there.  Examples of an app is Finelo.  You should be able to trade in both US and ASX exchanges.  You should look at all available trading algorithms.
 
+Now that you know about my app, I want you to do research first and look for any, CLI's, API's, MCP's, Python libraries, or any existing open-source work that is out there that has the features or functions of what my app has. Then i want you to compile that into a PRD for my review. 
+We don't need a big complex app starting off so we want to build this is phases. 
+Let's get a quick win with our first version of the phase and then we'll start building out complexity over time. Go ahead and do that research and present to me the PRD for review.
