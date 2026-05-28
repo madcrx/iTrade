@@ -1,5 +1,5 @@
 # iTrade — Product Requirements Document
-**Version**: 1.0 (Draft for Review)
+**Version**: 2.0
 **Date**: 2026-05-28
 **Status**: Awaiting Stakeholder Approval
 
@@ -7,229 +7,277 @@
 
 ## 1. Executive Summary
 
-iTrade is an AI-powered automated trading platform that executes trades across US stocks (NYSE/NASDAQ), Australian stocks (ASX), and cryptocurrency. Users can start with as little as $20, with the platform handling strategy selection, backtesting, and automated execution. The product is built in phases — starting with a fast, demonstrable MVP and progressively adding complexity.
+iTrade is an AI-powered trading signal and strategy platform. It analyses markets across US stocks (NYSE/NASDAQ), Australian stocks (ASX), and cryptocurrency, then delivers actionable buy/sell signals to users. The user reviews the signal and places the order themselves in their own broker or exchange app.
 
-**North Star Metric**: A new user can connect a paper trading account, run a backtest on a strategy, and see simulated P&L within 10 minutes of signing up.
+iTrade does **not** execute trades. This is a deliberate product and regulatory decision — the platform operates as a tool, not a financial service, placing it outside the scope of AFSL (Australian Financial Services Licence) requirements.
 
----
+Users can start with as little as $20. The value proposition is *intelligence and insight*, not automation: better signals, clear reasoning, and educational context around every recommendation.
 
-## 2. Problem Statement
-
-Retail investors want to participate in automated, algorithm-driven trading but face three barriers:
-1. **High capital requirements** — most platforms require $500–$2,000 to get started
-2. **Technical complexity** — setting up trading bots requires coding knowledge
-3. **Fragmentation** — separate tools exist for stocks, ASX, and crypto with no unified interface
-
-**Benchmark**: Finelo focuses on trading education with a $1,000 simulated account but offers no real automation. iTrade fills the gap with AI-driven execution from a $20 entry point.
+**North Star Metric**: A new user can run a backtest, receive their first live signal with clear buy/sell rationale, and place their first trade (manually) within 15 minutes of signing up.
 
 ---
 
-## 3. Target Users
+## 2. The Tool-Only Model — What This Means
+
+### What iTrade Does
+| Action | iTrade Does This? |
+|--------|-----------------|
+| Analyse market data | ✅ Yes |
+| Run backtests on strategies | ✅ Yes |
+| Generate buy/sell signals with reasoning | ✅ Yes |
+| Display signals, charts, and performance metrics | ✅ Yes |
+| Send push/email alerts when a signal fires | ✅ Yes |
+| Simulate paper trades (educational, no real money) | ✅ Yes |
+| Place orders in a broker on the user's behalf | ❌ No |
+| Hold client funds | ❌ No |
+| Provide personalised financial advice | ❌ No |
+
+### Regulatory Position
+Operating as a signal/tool platform (no execution) mirrors the TradingView model and is **exempt from AFSL requirements** under the Corporations Act 2001 (Cth), provided:
+1. iTrade never submits orders to a broker
+2. All trade decisions are made and executed by the user
+3. Prominent disclaimer is displayed at all times: *"iTrade provides market signals for informational purposes only. It is not a financial adviser. You are solely responsible for all investment decisions."*
+4. iTrade never holds client funds
+
+This model allows iTrade to launch with no regulatory licence, in any jurisdiction, immediately.
+
+---
+
+## 3. Problem Statement
+
+Retail investors want data-driven signals to guide their trades but face three barriers:
+1. **Signal noise** — too many conflicting indicators; no clear, reasoned recommendation
+2. **Complexity** — understanding when and why to trade requires technical knowledge most users lack
+3. **Fragmentation** — separate tools exist for stocks, ASX, and crypto; no unified signal dashboard
+
+**Benchmark**: Finelo focuses on trading education with a simulated account but offers no real-time signals or strategy intelligence. TradingView provides charts but requires users to build their own strategies. iTrade fills the gap: pre-built AI strategies that explain *why* a signal fired, across stocks, ASX, and crypto, from a $20 entry point.
+
+---
+
+## 4. Target Users
 
 | Persona | Description | Starting Capital |
 |---------|-------------|-----------------|
-| **Curious Beginner** | Wants to learn automated trading safely | $0 (paper trading) |
-| **Small Retail Investor** | Has $20–$500, wants algorithmic assistance | $20–$500 |
-| **ASX Investor** | Australian investor wanting automation | $20+ AUD |
-| **Crypto Trader** | Wants bot-assisted crypto strategies | $20+ |
-| **Experienced Trader** | Wants to backtest and deploy custom strategies | $500+ |
+| **Curious Beginner** | Wants guided, explained signals before committing real money | $0 (paper simulation) |
+| **Small Retail Investor** | Has $20–$500; wants AI-backed signals to inform manual trades | $20–$500 |
+| **ASX Investor** | Australian investor wanting strategy-backed signals for ASX stocks | $20+ AUD |
+| **Crypto Trader** | Wants systematic signals for crypto entries/exits | $20+ |
+| **Experienced Trader** | Wants to backtest and customise signal strategies | $500+ |
 
 ---
 
-## 4. Key Features by Phase
+## 5. Key Features by Phase
 
 ---
 
 ### Phase 1 — MVP (Weeks 1–8)
-**Theme: "See it work before you invest a cent"**
+**Theme: "See signals work before you invest a cent"**
 
-**Goal**: Paper trading with 3 pre-built strategies, backtesting, and a clean dashboard.
+**Goal**: Paper simulation with 3 pre-built strategies, backtesting engine, and a signal dashboard. No real money, no broker connection required.
 
-#### 4.1 Core Features
+#### 5.1 Core Features
 
 | Feature | Description | Priority |
 |---------|-------------|----------|
-| Paper Trading Account | Connect Alpaca paper account; simulate trades with real market data | P0 |
+| Signal Dashboard | Live feed of buy/sell signals per strategy; shows asset, signal type, price at signal, confidence level | P0 |
+| Signal Explanation | Each signal shows *why* it fired: which indicator triggered, historical hit rate, supporting data | P0 |
 | Strategy Library (3 strategies) | Golden Cross, RSI Reversal, Simple Momentum | P0 |
-| Backtesting Engine | Run any strategy against 2 years of historical data; show P&L, Sharpe ratio, max drawdown | P0 |
-| Dashboard | Portfolio overview, open positions, trade history, performance chart | P0 |
-| Strategy Activation | Toggle a strategy on/off; set risk level (conservative/moderate/aggressive) | P0 |
+| Backtesting Engine | Run any strategy against 2 years of historical data; show P&L, Sharpe ratio, max drawdown, win rate | P0 |
+| Paper Simulation | Track signals as if user followed them; show hypothetical portfolio performance without real money | P0 |
+| Watchlist | User adds stocks/crypto to watch; strategies run against watchlist assets | P0 |
 | Market Data Feed | Real-time + historical quotes for US stocks | P0 |
 | User Authentication | Email/password sign-up, JWT sessions | P1 |
-| Notifications | Email/in-app alerts on trade execution | P1 |
+| Signal Alerts | Email/push notification when a signal fires on a watched asset | P1 |
 
-#### 4.2 Trading Strategies (Phase 1)
+#### 5.2 Signal Flow (How It Works)
+```
+Market Data → Strategy Engine → Signal Generated → User Notified
+                                      ↓
+                             Signal Card shows:
+                             • Asset: BHP.AX
+                             • Action: BUY
+                             • Reason: RSI crossed below 30 (oversold)
+                             • Entry price: $42.30
+                             • Suggested stop-loss: $40.10 (-5%)
+                             • Suggested take-profit: $46.50 (+10%)
+                             • Backtest win rate: 64% over 2 years
+                                      ↓
+                             User opens their broker app and places the order
+```
+
+#### 5.3 Trading Strategies (Phase 1)
 
 1. **Golden Cross / Dead Cross** — 50-day SMA crosses above/below 200-day SMA
-2. **RSI Reversal** — Buy when RSI < 30 (oversold), sell when RSI > 70 (overbought)
-3. **Momentum (ROC-based)** — Enter when Rate of Change exceeds threshold over N periods
+2. **RSI Reversal** — Signal fires when RSI < 30 (buy) or RSI > 70 (sell)
+3. **Momentum (ROC-based)** — Signal fires when Rate of Change exceeds threshold over N periods
 
-#### 4.3 Tech Stack (Phase 1)
+#### 5.4 Tech Stack (Phase 1)
 
 | Layer | Technology | Rationale |
 |-------|-----------|-----------|
-| Broker (US paper) | **Alpaca API** | Free paper trading, commission-free, no minimum |
-| Backtesting | **Lumibot** | Unified backtest→live codebase, MIT license, beginner-friendly |
-| Market Data | **yfinance** + **Alpha Vantage** (free tier) | Zero cost for MVP; Alpha Vantage for reliability |
-| Indicators | **pandas-ta** | 150+ indicators, no C dependency, MIT license |
-| Backend | **Python + FastAPI** | Lightweight, async, Python-native for trading libs |
-| Database | **PostgreSQL** | Trade history, user settings, backtest results |
-| Frontend | **React + Recharts** | Performance charts, responsive dashboard |
+| Market Data | **yfinance** + **Alpha Vantage** (free tier) | Zero cost for MVP; Alpha Vantage for production reliability |
+| Strategy Engine | **pandas-ta** + custom Python | 150+ indicators; no C dependency; MIT license |
+| Backtesting | **Backtrader** or **Lumibot** | Backtest strategies against historical data |
+| Backend | **Python + FastAPI** | Lightweight, async, Python-native |
+| Database | **PostgreSQL** | Signal history, user watchlists, backtest results |
+| Frontend | **React + Recharts** | Signal cards, performance charts, responsive dashboard |
 | Hosting | **Docker + VPS** ($5–10/month) | Simple deployment |
+| Alerts | **Email (SMTP) + Web Push** | Signal notifications |
 
-#### 4.4 Phase 1 Success Criteria
-- User can run a backtest in < 30 seconds
-- Paper trading executes within 5 seconds of signal
+#### 5.5 Phase 1 Success Criteria
+- Backtest completes in < 30 seconds
+- Signal generated within 60 seconds of market data update
+- Signal card clearly explains why the signal fired
 - Dashboard loads in < 2 seconds
-- 3 strategies available and documented
+- 3 strategies running against user watchlist
 
 ---
 
-### Phase 1B — Real Money Entry (Weeks 9–12)
-**Theme: "Go live with $20"**
+### Phase 1B — Live Signals + Broker Deep Links (Weeks 9–12)
+**Theme: "From signal to trade in 3 taps"**
 
-**Goal**: Enable real trades on US stocks and ASX via Stake; add risk management.
+**Goal**: Connect to real market data for ASX + US, add deep-link buttons so users can jump directly from a signal into their broker app pre-filled with the trade details.
 
 #### Features Added
 
 | Feature | Description | Priority |
 |---------|-------------|----------|
-| Stake Broker Integration | Connect Stake account for US + ASX live trading | P0 |
-| Position Sizing | Kelly Criterion, fixed-fraction, or fixed-dollar sizing | P0 |
-| Stop-Loss / Take-Profit | Configurable per strategy | P0 |
-| Live P&L Tracking | Real-time portfolio value vs. cost basis | P0 |
-| ASX Stock Support | Search and trade ASX-listed securities | P1 |
-| Risk Dashboard | Max drawdown, daily loss limit, exposure per sector | P1 |
-| Deposit/Withdraw Alerts | Notify user when broker balance changes | P2 |
+| Broker Deep Links | "Trade Now" button opens user's broker app (Stake, CommSec, Selfwealth, Kraken) pre-filled with ticker + suggested size | P0 |
+| ASX Stock Signals | Strategies run against ASX-listed securities; 15-min delayed data | P0 |
+| Crypto Signals | Strategies run against BTC, ETH, top 20 crypto via CoinGecko data | P0 |
+| Portfolio Tracker | User manually logs executed trades; iTrade tracks P&L against signals | P1 |
+| Signal History | Full log of all signals fired, whether user acted, and outcome | P1 |
+| Risk Context | Each signal shows suggested position size (as % of portfolio) and stop-loss | P1 |
+| Performance Scorecard | Tracks how well each strategy is performing in real market conditions | P1 |
 
-#### ASX Notes
-- Stake charges flat $3 AUD per trade — optimal for small accounts
-- Minimum practical trade: ~$20 AUD (fractional shares where available)
-- Data source: yfinance daily data (15-min delay acceptable for Phase 1B)
+#### Broker Deep Link Implementation
+Deep links open the broker app with trade pre-populated — user still taps "confirm" in their app. No API connection to the broker. No AFSL exposure.
+
+| Broker | Deep Link Support | Market |
+|--------|-----------------|--------|
+| Stake | URL scheme + web redirect | US + ASX |
+| CommSec | Web URL pre-fill | ASX |
+| Kraken | Web order page pre-fill | Crypto |
+| Coinbase | URL scheme | Crypto |
+| Interactive Brokers | TWS deep link | US + ASX |
 
 #### Phase 1B Success Criteria
-- Live order placed and confirmed within 10 seconds of signal
-- Stop-loss triggers correctly in backtests and paper tests
-- ASX and US portfolios shown on single dashboard
+- ASX and crypto signals firing correctly
+- "Trade Now" deep link tested on 5+ brokers
+- Portfolio tracker accurately reflects manually logged trades
+- Signal accuracy (backtest vs live) reported on scorecard
 
 ---
 
-### Phase 2 — Crypto + AI Signals (Weeks 13–20)
-**Theme: "More assets, smarter signals"**
+### Phase 2 — AI Signals + No-Code Strategy Builder (Weeks 13–20)
+**Theme: "Build your own signal engine"**
 
 | Feature | Description |
 |---------|-------------|
-| Crypto Trading | Binance + Kraken integration (spot); $20 minimum viable |
-| Freqtrade Integration | Run Freqtrade strategies as crypto sub-engine |
-| Sentiment Analysis | Finnhub news sentiment as signal confirmation layer |
-| MACD + Bollinger Bands | Add 2 more strategy templates |
-| DCA Automation | Dollar-cost averaging bot for any asset |
-| ML Classifier (Beta) | scikit-learn Random Forest: predict next-day direction |
-| Strategy Marketplace | Users can share/clone community strategies |
+| No-Code Strategy Builder | Drag-and-drop indicator blocks (RSI, MACD, Bollinger, SMA, volume) to build custom signal rules |
+| More Strategies | MACD Crossover, Bollinger Band Mean Reversion, DCA timing signals |
+| Sentiment Signals | Finnhub news sentiment as a signal confirmation layer ("signal + positive news = stronger conviction") |
+| ML Direction Signal | Random Forest classifier: predicts next-day up/down probability as a signal confidence score |
+| Strategy Marketplace | Users share and clone community-built strategies |
+| Signal Strength Score | Composite score (1–10) combining technical, sentiment, and ML inputs |
 | Mobile-Responsive UI | Full functionality on mobile browser |
+| Crypto Signals Expansion | Kraken pairs, top 50 crypto assets |
 
 ---
 
-### Phase 3 — Advanced AI + Institutional (Month 6+)
-**Theme: "Institutional-grade for retail"**
+### Phase 3 — Advanced AI + Institutional Signals (Month 6+)
+**Theme: "Institutional-grade intelligence for retail"**
 
 | Feature | Description |
 |---------|-------------|
-| Reinforcement Learning Agent | FinRL-based DRL agent (PPO/DDPG) for portfolio management |
-| Interactive Brokers Integration | Options, futures, advanced order types ($500+ accounts) |
-| QuantConnect Lean Backtesting | Walk-forward testing, Monte Carlo simulation |
-| Pairs Trading | Cointegration-based market-neutral strategies |
-| Multi-Strategy Portfolio | Allocate capital across multiple concurrent strategies |
-| OpenBB Data Layer | Institutional-grade fundamental + alternative data |
+| RL-Based Signal Agent | FinRL-trained agent generates signals based on portfolio-level optimisation |
+| Options Signal Layer | Signal for options plays (via IBKR deep links) — covered calls, protective puts |
+| Pairs Trading Signals | Cointegration-based long/short signal pairs |
+| Multi-Strategy Consensus | Signals only fire when 2+ strategies agree ("ensemble confirmation") |
+| OpenBB Data Layer | Fundamental + alternative data (earnings, insider activity, macro) as signal inputs |
 | Subscription Tiers | Freemium → Pro ($19/month) → Institutional ($99/month) |
+| API Access | Developers can pull iTrade signals via REST API into their own tools |
 
 ---
 
-## 5. Broker & API Integration Summary
-
-### Recommended Broker Stack
-
-| Phase | Broker | Market | Min Capital | Notes |
-|-------|--------|--------|-------------|-------|
-| Phase 1 | **Alpaca** | US Stocks | $0 (paper) | Best MVP broker; paper trading unlimited |
-| Phase 1B | **Stake** | US + ASX | ~$20 | Flat $3/trade; community Python wrapper |
-| Phase 2 | **Binance / Kraken** | Crypto | ~$20 | 0.1–0.26% fees; robust APIs |
-| Phase 3 | **Interactive Brokers** | Multi-asset | $500 | Options, futures, advanced execution |
-
-### Market Data Stack
+## 6. Market Data & API Stack
 
 | Provider | Cost | Use |
 |----------|------|-----|
-| yfinance | Free | MVP historical data (unofficial; prototype only) |
-| Alpha Vantage | Free / $25+/month | Production stock data; 50+ indicators |
-| Finnhub | Free (60 req/min) | News sentiment, real-time quotes |
-| Polygon.io | Free tier / $199+/month | Tick data for Phase 3 |
-| CoinGecko | Free | Crypto prices (Phase 2) |
+| yfinance | Free | MVP US historical data (unofficial; prototype only) |
+| Alpha Vantage | Free / $25+/month | Production US stock data; 50+ indicators |
+| Finnhub | Free (60 req/min) | News sentiment, real-time US quotes |
+| CoinGecko | Free | Crypto prices (Phase 1B+) |
+| yfinance (ASX) | Free | ASX 15-min delayed data (Phase 1B) |
+| Polygon.io | $199+/month | Tick data if real-time precision required (Phase 3) |
 
 ---
 
-## 6. Algorithm Library
+## 7. Signal Strategy Library
 
 ### Phase 1 (Launch)
-| Strategy | Logic | Asset Class |
-|----------|-------|-------------|
-| Golden Cross | 50 SMA crosses above 200 SMA → BUY | US Stocks, ASX |
-| RSI Reversal | RSI < 30 → BUY; RSI > 70 → SELL | Stocks, Crypto |
-| ROC Momentum | Price change rate exceeds N% in M days | US Stocks |
+| Strategy | Signal Logic | Asset Class |
+|----------|-------------|-------------|
+| Golden Cross | 50 SMA crosses above 200 SMA → BUY signal | US Stocks, ASX |
+| RSI Reversal | RSI < 30 → BUY signal; RSI > 70 → SELL signal | Stocks, Crypto |
+| ROC Momentum | Price ROC exceeds N% over M days → BUY signal | US Stocks |
 
-### Phase 2 (Expansion)
-| Strategy | Logic | Asset Class |
-|----------|-------|-------------|
+### Phase 1B (Expansion)
+| Strategy | Signal Logic | Asset Class |
+|----------|-------------|-------------|
+| ASX Golden Cross | Same as Golden Cross applied to ASX securities | ASX |
+| Crypto RSI | RSI applied to BTC/ETH/top 20 | Crypto |
+| Volume Spike | Unusual volume + price direction → signal | US Stocks, ASX |
+
+### Phase 2 (AI Layer)
+| Strategy | Signal Logic | Asset Class |
+|----------|-------------|-------------|
 | MACD Crossover | Signal line cross on MACD histogram | Stocks, Crypto |
-| Bollinger Band Mean Reversion | Price touches lower/upper band | Stocks, Crypto |
-| DCA Bot | Fixed-interval purchases regardless of price | Any |
-| Sentiment Signal | News sentiment score > threshold → confirm trade | Stocks |
-| ML Direction Classifier | Random Forest predicts up/down next day | Stocks |
+| Bollinger Mean Reversion | Price touches lower band → BUY signal | Stocks, Crypto |
+| Sentiment Confirmation | Technical signal + positive/negative news → confirmed signal | Stocks |
+| ML Classifier | Random Forest: probability > 65% up → BUY signal | Stocks |
 
 ### Phase 3 (Advanced)
-| Strategy | Logic | Asset Class |
-|----------|-------|-------------|
-| Pairs Trading | Cointegrated pair diverges → mean revert | Stocks |
-| RL Agent (PPO) | DRL agent maximises risk-adjusted return | Multi-asset |
-| Ensemble Voting | Majority vote across 3+ strategies | Multi-asset |
+| Strategy | Signal Logic | Asset Class |
+|----------|-------------|-------------|
+| Pairs Signal | Cointegrated pair diverges beyond 2σ → signal | Stocks |
+| RL Portfolio Signal | DRL agent generates portfolio-level rebalance signals | Multi-asset |
+| Ensemble Consensus | Signal fires only when 3+ strategies agree | Multi-asset |
 
 ---
 
-## 7. Open Source Components
+## 8. Open Source Components
 
 | Library | License | Purpose |
 |---------|---------|---------|
-| Lumibot | MIT | Backtesting + live trading framework |
 | pandas-ta | MIT | Technical indicator calculation |
-| Freqtrade | GPL-3.0 | Crypto strategy sub-engine (Phase 2) |
-| FinRL | Apache-2.0 | Reinforcement learning agents (Phase 3) |
-| Hummingbot | Apache-2.0 | Market making / crypto (Phase 3 option) |
-| OctoBot | Public source | Alt crypto UI (Phase 2 option) |
-| stable-baselines3 | MIT | RL algorithm library |
-| scikit-learn | BSD | ML classifiers (Phase 2) |
+| Backtrader | GPL-3.0 | Backtesting engine |
+| Lumibot | MIT | Alternative backtesting framework |
+| scikit-learn | BSD | ML classifier for signal confidence (Phase 2) |
+| FinRL | Apache-2.0 | RL-based signal generation (Phase 3) |
+| stable-baselines3 | MIT | RL algorithm library (Phase 3) |
 
 ---
 
-## 8. Risk Management Requirements
+## 9. Risk & Disclaimer Requirements
 
-- **Daily Loss Limit**: Platform-enforced maximum daily loss (configurable, default 2%)
-- **Position Sizing**: No single position > 10% of portfolio by default
-- **Stop-Loss**: Mandatory stop-loss on all live strategies
-- **Circuit Breaker**: Auto-pause all strategies if daily loss limit hit
-- **Paper Before Live**: User must run strategy in paper mode for ≥ 7 days before enabling live
-- **Regulatory Disclaimer**: Clear messaging that iTrade is not financial advice; past performance ≠ future results
-- **Data Privacy**: No storage of broker credentials in plaintext (OAuth / API key vault)
+- **Prominent Disclaimer**: Displayed on every signal card, dashboard header, and onboarding: *"iTrade provides market signals for informational purposes only. It is not a financial adviser. Past signal performance does not guarantee future results. You are solely responsible for all investment decisions."*
+- **No Execution**: Platform must never submit an order to any broker or exchange. Deep links open the broker UI; the user presses confirm.
+- **No Client Funds**: iTrade never holds, receives, or transfers user money.
+- **Signal Accuracy Transparency**: Every strategy shows its historical backtest win rate and live performance so users can assess quality themselves.
+- **Stop-Loss Guidance**: Every signal includes a suggested stop-loss level (informational only).
+- **Paper Simulation First**: New users default to paper simulation mode; must actively switch to "Live Signal Mode."
+- **Data Privacy**: No broker credentials stored; deep links use public URL schemes only.
 
 ---
 
-## 9. Cost Model
+## 10. Cost Model
 
 ### Phase 1 Operating Costs (Monthly)
 | Item | Cost |
 |------|------|
 | VPS hosting (2 vCPU, 4GB RAM) | $10–20/month |
 | Alpha Vantage free tier | $0 |
-| Alpaca (paper) | $0 |
 | Domain + SSL | ~$2/month amortised |
 | **Total** | **$12–22/month** |
 
@@ -238,130 +286,114 @@ Retail investors want to participate in automated, algorithm-driven trading but 
 |------|------|
 | Alpha Vantage premium | $25/month |
 | Finnhub free tier | $0 |
-| Stake trades (100/month est.) | $300/year ($25/month) |
 | VPS upgrade | $20–40/month |
-| **Total** | **$70–90/month** |
+| **Total** | **$45–65/month** |
+
+*Note: No brokerage costs — iTrade does not execute trades.*
 
 ### Revenue Model (Phase 2+)
 | Tier | Price | Features |
 |------|-------|---------|
-| Free | $0 | Paper trading, 3 strategies, backtesting |
-| Pro | $19/month | Live trading, all strategies, sentiment signals, priority support |
-| Institutional | $99/month | ML strategies, RL agents, multi-broker, API access |
+| Free | $0 | 3 strategies, backtesting, paper simulation, basic signals |
+| Pro | $19/month | All strategies, live signals, sentiment layer, ML confidence scores, deep links |
+| Institutional | $99/month | Custom strategy builder, ensemble signals, API access, priority support |
 
 ---
 
-## 10. Non-Functional Requirements
+## 11. Non-Functional Requirements
 
 | Requirement | Target |
 |-------------|--------|
 | API response time | < 500ms for data queries |
-| Order execution latency | < 5 seconds signal-to-order |
+| Signal generation latency | < 60 seconds from market data update |
 | Uptime | 99.5% (Phase 1), 99.9% (Phase 2+) |
 | Backtest speed | Complete 2-year backtest in < 30 seconds |
-| Data retention | Trade history retained indefinitely |
-| Security | OWASP Top 10 compliance; API keys encrypted at rest |
+| Data retention | Signal history retained indefinitely |
+| Security | OWASP Top 10 compliance; no broker credentials stored |
 
 ---
 
-## 11. Out of Scope (Phase 1)
+## 12. Out of Scope (All Phases)
 
-- Options trading
-- Leverage / margin trading
+- Automated order execution (by design — tool-only model)
+- Holding client funds
+- Personalised financial advice
+- Portfolio management on behalf of users
 - Tax reporting / ATO integration
-- Social / copy trading features
-- Mobile native app (iOS/Android)
-- Fractional ASX shares
-- Real-time Level 2 order book data
+- Margin or leverage trading signals (Phase 1–2)
+- Mobile native app (iOS/Android) — Phase 1–2
 
 ---
 
-## 12. Decisions Log
+## 13. Decisions Log
 
 | # | Question | Decision | Notes |
 |---|----------|----------|-------|
-| 1 | ASX real-time data | **Accept 15-min delay** | Use yfinance + Stake community wrapper; revisit if user demand requires real-time |
-| 2 | $20 minimum viability | **Enforce soft minimum $50–$100** | UI warning when account balance < $100; prevents fee erosion (Stake $3 = 6% on $50, 3% on $100) |
-| 3 | Strategy building UI | **No-code builder in Phase 2** | Drag-and-drop indicator blocks; code-first remains available for advanced users |
-| 4 | Regulatory position | **AR arrangement first, independent AFSL in Phase 3** | Executing trades requires AFSL authorisation; AR path is lowest-friction startup route — see Section 14.1 |
-| 5 | Crypto exchange | **Kraken (primary), CCXT abstraction for future Binance** | AUSTRAC licensed in AU, strong US regulatory standing post-Bitnomial; higher fees acceptable — see Section 14.2 |
+| 1 | ASX real-time data | **Accept 15-min delay** | yfinance ASX data; revisit if user demand requires real-time |
+| 2 | $20 minimum viability | **Enforce soft minimum $50–$100 guidance** | Informational warning in UI; user's brokerage fees are their own concern since iTrade doesn't execute |
+| 3 | Strategy building UI | **No-code builder in Phase 2** | Drag-and-drop indicator blocks; code-first available for advanced users |
+| 4 | Regulatory position | **Tool-only model — no AFSL required** | iTrade generates signals only; user executes manually. Mirrors TradingView model. Exempt from AFSL. |
+| 5 | Crypto exchange | **Kraken signals (primary); CCXT abstraction** | Deep links to Kraken; CCXT used in signal engine for price data so Binance/Coinbase can be added easily |
 
 ---
 
-## 14. Research Pending
+## 14. Regulatory Position — Tool Only
 
-### 14.1 AFSL (Australian Financial Services Licence)
+### Legal Basis
+Under the Corporations Act 2001 (Cth), providing factual market information, analysis, and signals — without executing transactions — does not constitute "dealing in financial products" (s.769B) or "providing financial product advice" requiring AFSL.
 
-**Verdict: iTrade almost certainly requires AFSL authorisation to operate in Australia. Recommended path: Authorised Representative (AR) arrangement first.**
+iTrade operates identically to:
+- **TradingView** — signals and charts; no execution; no AFSL
+- **MetaTrader** — strategy signals via brokers; no independent AFSL
+- **ASIC Class Order [CO 02/1277]** — exempts factual information and general market commentary from AFSL requirements
 
-**Does iTrade need an AFSL?**
-Yes — likely. Executing trades on behalf of users (even using their own credentials) constitutes "dealing in financial products" under the Corporations Act. The "tool only" distinction is not supported by current ASIC guidance. The general advice exemption covers factual information, not trade execution.
+### Non-Negotiable Design Constraints (to maintain tool status)
+1. **No order submission** — iTrade never calls a broker API to place an order
+2. **No broker credentials stored** — deep links use public URL schemes only
+3. **No discretionary management** — iTrade does not manage a portfolio on the user's behalf
+4. **User confirmation always required** — user must manually place every trade in their broker
+5. **Disclaimer on every signal** — *"This is not financial advice. You are responsible for your investment decisions."*
 
-**Recommended Path: Authorised Representative (AR)**
+### What Changes if iTrade Ever Executes Trades
+If a future version adds automated execution, an AFSL (or Authorised Representative arrangement) would be required before that feature goes live. The recommended path at that point is AR under an existing AFSL holder (~$2,000–$10,000/year, weeks to set up).
 
-| Option | Cost | Timeline | Flexibility |
-|--------|------|----------|-------------|
-| Independent AFSL | $10,000–$60,000 setup + $20,000–$30,000/year ongoing | 3–12 months | Full |
-| AR under existing licensee | $2,000–$10,000/year | Weeks (ASIC notification) | Limited to licensee's approved products |
-| Crypto-only AFSL | Up to $200,000 | 6–12 months | Full (crypto) |
+---
 
-**Startup Recommendation**: Engage an AR arrangement under an established AFSL holder for Phase 1B–2. This is significantly lower friction. Pursue an independent AFSL in Phase 3 when revenue supports the $20,000–$30,000/year compliance cost.
+## 15. Kraken — Phase 2 Crypto Signal Engine
 
-**Key Compliance Obligations (once licensed)**
-- AUSTRAC AML/CTF registration
-- RG 255 (advice standards)
-- Professional indemnity insurance
-- Algorithmic trading "kill switch" requirement (ASIC)
-- Client money segregation (if iTrade holds funds)
-- Regular ASIC reporting
-
-**Action Items Before Phase 1B**
-1. Engage an AFSL compliance lawyer to confirm AR vs. independent AFSL path
-2. Identify AFSL holders open to AR arrangements for algo trading platforms
-3. Add mandatory disclaimers: "iTrade is not a financial adviser. Automated strategies involve risk."
-4. Ensure iTrade never holds client funds directly (use broker accounts only)
-
-### 14.2 Kraken vs Binance — Decision: Kraken for Phase 2
-
-**Decision: Use Kraken as the primary Phase 2 crypto exchange.**
+**Decision: Kraken as primary crypto data source and deep-link target.**
 
 | Factor | Kraken | Binance |
 |--------|--------|---------|
-| AU Regulatory Status | ✅ AUSTRAC licensed (Bit Trade Pty Ltd) | ⚠️ Binance.AU shut down 2023; Binance.com available but no AU entity |
-| US Regulatory Status | ✅ Strong (acquired Bitnomial May 2026) | ❌ Binance.US unavailable in NY/TX/HI/VT |
-| Maker/Taker Fees (base) | 0.25% / 0.40% (Pro tier) | 0.10% / 0.10% |
-| API Reliability | ✅ Excellent for algo trading | ✅ Good |
-| Rate Limits | ~1 call/sec per pair (decay model) | Weight-based |
-| Python SDK | `python-kraken-sdk` (official) + `pykrakenapi` | `python-binance` (community) |
-| $20 Account Viability | ✅ Viable; fees erode small positions | ✅ Cheaper fees but regulatory risk |
+| AU Regulatory Status | ✅ AUSTRAC licensed (Bit Trade Pty Ltd) | ⚠️ No AU entity since 2023 |
+| US Regulatory Status | ✅ Strong (acquired Bitnomial May 2026) | ❌ Unavailable in NY/TX/HI/VT |
+| API / Data Quality | ✅ Excellent for systematic signal generation | ✅ Good |
+| Deep Link Support | ✅ Web order page pre-fill | ✅ Web order page pre-fill |
+| Python SDK | `python-kraken-sdk` (official) + CCXT | `python-binance` + CCXT |
 
-**Rationale**: Kraken's AUSTRAC licence and strong US regulatory position (post-Bitnomial acquisition) make it the safer choice for a compliant AU/US platform. Higher fees are acceptable given the regulatory clarity.
-
-**Implementation**: Use `pykrakenapi` for Phase 2 MVP (pandas integration, built-in rate limiter). Wrap via **CCXT** for exchange-agnostic abstraction so Binance can be added as an optional connector in Phase 3 without rewriting strategy code.
-
-**Note on $20 Minimum**: Kraken's 0.40% taker fee on a $20 trade = $0.08 — negligible. The Stake $3 flat fee remains the binding constraint for ASX trades, not crypto fees.
+**Implementation**: Use **CCXT** for exchange-agnostic price data in the signal engine. Binance can be added as a Phase 3 data source + deep-link target without rewriting strategy code.
 
 ---
 
-## 13. Phased Delivery Timeline
+## 16. Phased Delivery Timeline
 
 ```
 Week 1–2   : Backend scaffolding, FastAPI, PostgreSQL, Auth
-Week 3–4   : Alpaca paper trading integration, order execution
-Week 5–6   : Backtest engine (Lumibot), 3 strategies, pandas-ta indicators
-Week 7–8   : Frontend dashboard, charts, strategy toggle UI
-── Phase 1 MVP Launch ──────────────────────────────────────
-Week 9–10  : Stake broker integration, live order flow
-Week 11–12 : Risk management (stop-loss, position sizing, circuit breaker)
-── Phase 1B Launch ─────────────────────────────────────────
-Week 13–15 : Binance/Kraken crypto integration
-Week 16–18 : Freqtrade sub-engine, DCA bot, 2 new strategies
-Week 19–20 : Sentiment analysis (Finnhub), ML classifier (Beta)
-── Phase 2 Launch ──────────────────────────────────────────
-Month 6+   : FinRL RL agents, IBKR, QuantConnect, subscription billing
-── Phase 3 Ongoing ─────────────────────────────────────────
+Week 3–4   : Market data pipeline (yfinance + Alpha Vantage), watchlist
+Week 5–6   : Strategy engine (pandas-ta), 3 strategies, signal generation
+Week 7–8   : Frontend — signal dashboard, backtest UI, paper simulation
+── Phase 1 MVP Launch ──────────────────────────────────────────────────
+Week 9–10  : ASX + crypto data feeds; signal coverage expansion
+Week 11–12 : Broker deep links (Stake, CommSec, Kraken); portfolio tracker
+── Phase 1B Launch ─────────────────────────────────────────────────────
+Week 13–15 : No-code strategy builder (drag-and-drop)
+Week 16–18 : MACD + Bollinger strategies; Finnhub sentiment signals
+Week 19–20 : ML classifier (Random Forest); signal strength score
+── Phase 2 Launch ──────────────────────────────────────────────────────
+Month 6+   : RL-based signal agent (FinRL), ensemble consensus, API access
+── Phase 3 Ongoing ─────────────────────────────────────────────────────
 ```
 
 ---
 
-*This PRD is a living document. All technical choices are recommendations pending stakeholder approval and further due diligence on regulatory obligations.*
+*This PRD is a living document. The tool-only model is a core architectural and regulatory constraint — any feature that causes iTrade to execute trades on behalf of users requires legal review before implementation.*
