@@ -283,28 +283,63 @@ Retail investors want to participate in automated, algorithm-driven trading but 
 | 1 | ASX real-time data | **Accept 15-min delay** | Use yfinance + Stake community wrapper; revisit if user demand requires real-time |
 | 2 | $20 minimum viability | **Enforce soft minimum $50–$100** | UI warning when account balance < $100; prevents fee erosion (Stake $3 = 6% on $50, 3% on $100) |
 | 3 | Strategy building UI | **No-code builder in Phase 2** | Drag-and-drop indicator blocks; code-first remains available for advanced users |
-| 4 | Regulatory position | **Research AFSL first** | Pending research — see Section 14 |
-| 5 | Crypto exchange | **Research Kraken first** | Pending research — see Section 14 |
+| 4 | Regulatory position | **AR arrangement first, independent AFSL in Phase 3** | Executing trades requires AFSL authorisation; AR path is lowest-friction startup route — see Section 14.1 |
+| 5 | Crypto exchange | **Kraken (primary), CCXT abstraction for future Binance** | AUSTRAC licensed in AU, strong US regulatory standing post-Bitnomial; higher fees acceptable — see Section 14.2 |
 
 ---
 
 ## 14. Research Pending
 
 ### 14.1 AFSL (Australian Financial Services Licence)
-*Research in progress — findings to be incorporated before Phase 1B launch.*
 
-Key questions being investigated:
-- Does executing trades via user's own broker credentials require an AFSL?
-- Cost, timeline, and authorised representative alternative
-- Comparable AU fintech apps and their licensing approach
+**Verdict: iTrade almost certainly requires AFSL authorisation to operate in Australia. Recommended path: Authorised Representative (AR) arrangement first.**
 
-### 14.2 Kraken vs Binance (Phase 2 Crypto Exchange)
-*Research in progress — findings to be incorporated before Phase 2 planning.*
+**Does iTrade need an AFSL?**
+Yes — likely. Executing trades on behalf of users (even using their own credentials) constitutes "dealing in financial products" under the Corporations Act. The "tool only" distinction is not supported by current ASIC guidance. The general advice exemption covers factual information, not trade execution.
 
-Key questions being investigated:
-- API capabilities, fees, minimum order sizes
-- Australian user availability and regulatory standing
-- Python SDK quality and community support
+**Recommended Path: Authorised Representative (AR)**
+
+| Option | Cost | Timeline | Flexibility |
+|--------|------|----------|-------------|
+| Independent AFSL | $10,000–$60,000 setup + $20,000–$30,000/year ongoing | 3–12 months | Full |
+| AR under existing licensee | $2,000–$10,000/year | Weeks (ASIC notification) | Limited to licensee's approved products |
+| Crypto-only AFSL | Up to $200,000 | 6–12 months | Full (crypto) |
+
+**Startup Recommendation**: Engage an AR arrangement under an established AFSL holder for Phase 1B–2. This is significantly lower friction. Pursue an independent AFSL in Phase 3 when revenue supports the $20,000–$30,000/year compliance cost.
+
+**Key Compliance Obligations (once licensed)**
+- AUSTRAC AML/CTF registration
+- RG 255 (advice standards)
+- Professional indemnity insurance
+- Algorithmic trading "kill switch" requirement (ASIC)
+- Client money segregation (if iTrade holds funds)
+- Regular ASIC reporting
+
+**Action Items Before Phase 1B**
+1. Engage an AFSL compliance lawyer to confirm AR vs. independent AFSL path
+2. Identify AFSL holders open to AR arrangements for algo trading platforms
+3. Add mandatory disclaimers: "iTrade is not a financial adviser. Automated strategies involve risk."
+4. Ensure iTrade never holds client funds directly (use broker accounts only)
+
+### 14.2 Kraken vs Binance — Decision: Kraken for Phase 2
+
+**Decision: Use Kraken as the primary Phase 2 crypto exchange.**
+
+| Factor | Kraken | Binance |
+|--------|--------|---------|
+| AU Regulatory Status | ✅ AUSTRAC licensed (Bit Trade Pty Ltd) | ⚠️ Binance.AU shut down 2023; Binance.com available but no AU entity |
+| US Regulatory Status | ✅ Strong (acquired Bitnomial May 2026) | ❌ Binance.US unavailable in NY/TX/HI/VT |
+| Maker/Taker Fees (base) | 0.25% / 0.40% (Pro tier) | 0.10% / 0.10% |
+| API Reliability | ✅ Excellent for algo trading | ✅ Good |
+| Rate Limits | ~1 call/sec per pair (decay model) | Weight-based |
+| Python SDK | `python-kraken-sdk` (official) + `pykrakenapi` | `python-binance` (community) |
+| $20 Account Viability | ✅ Viable; fees erode small positions | ✅ Cheaper fees but regulatory risk |
+
+**Rationale**: Kraken's AUSTRAC licence and strong US regulatory position (post-Bitnomial acquisition) make it the safer choice for a compliant AU/US platform. Higher fees are acceptable given the regulatory clarity.
+
+**Implementation**: Use `pykrakenapi` for Phase 2 MVP (pandas integration, built-in rate limiter). Wrap via **CCXT** for exchange-agnostic abstraction so Binance can be added as an optional connector in Phase 3 without rewriting strategy code.
+
+**Note on $20 Minimum**: Kraken's 0.40% taker fee on a $20 trade = $0.08 — negligible. The Stake $3 flat fee remains the binding constraint for ASX trades, not crypto fees.
 
 ---
 
