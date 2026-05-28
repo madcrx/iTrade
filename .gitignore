@@ -1,0 +1,108 @@
+# ─── Claude Code ──────────────────────────────────────────────────────────────
+.claude/
+
+# ─── Environment & Secrets ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.dmypy.json
+dmypy.json
+
+# ─── Virtual Environments ─────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+.env/
+ENV/
+pip-wheel-metadata/
+
+# ─── Testing ──────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+
+# ─── Node / Frontend ──────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.npm/
+
+# ─── Build Outputs ────────────────────────────────────────────────────────────
+dist/
+build/
+.next/
+.nuxt/
+.output/
+.svelte-kit/
+out/
+*.tsbuildinfo
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+*.log.*
+
+# ─── OS & Editor ──────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+# (docker-compose.override.yml is intentionally tracked; local overrides are not)
+docker-compose.override.local.yml
+
+# ─── Database ─────────────────────────────────────────────────────────────────
+*.sqlite
+*.sqlite3
+*.db
+postgres_data/
+redis_data/
+
+# ─── Alembic ──────────────────────────────────────────────────────────────────
+# Keep versions/ tracked; ignore cached state
+backend/alembic/__pycache__/
+
+# ─── Jupyter / Data Science ───────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─── Misc ─────────────────────────────────────────────────────────────────────
+.cache/
+tmp/
+temp/
