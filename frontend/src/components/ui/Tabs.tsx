@@ -93,7 +93,7 @@ export function TabPanel({ id, children, className }: TabPanelProps) {
 
 // Simpler inline tab variant used in some places
 interface SimpleTabsProps {
-  tabs: { id: string; label: string }[]
+  tabs: { id?: string; value?: string; label: string }[]
   active: string
   onChange: (id: string) => void
   className?: string
@@ -102,20 +102,23 @@ interface SimpleTabsProps {
 export function SimpleTabs({ tabs, active, onChange, className }: SimpleTabsProps) {
   return (
     <div className={clsx('flex items-center gap-1 p-1 bg-bg-primary rounded-lg border border-border', className)}>
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          onClick={() => onChange(tab.id)}
-          className={clsx(
-            'px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200',
-            active === tab.id
-              ? 'bg-accent-blue text-white'
-              : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
-          )}
-        >
-          {tab.label}
-        </button>
-      ))}
+      {tabs.map((tab) => {
+        const key = tab.id ?? tab.value ?? tab.label
+        return (
+          <button
+            key={key}
+            onClick={() => onChange(key)}
+            className={clsx(
+              'px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200',
+              active === key
+                ? 'bg-accent-blue text-white'
+                : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
+            )}
+          >
+            {tab.label}
+          </button>
+        )
+      })}
     </div>
   )
 }
