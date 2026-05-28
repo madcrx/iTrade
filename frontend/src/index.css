@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #0a0f1e;
+    --bg-secondary: #111827;
+    --bg-card: #1a2236;
+    --accent-blue: #3b82f6;
+    --bull: #10b981;
+    --bear: #ef4444;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --border: #1f2937;
+  }
+
+  .light {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border: #e2e8f0;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-sans antialiased;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0f1e;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+  }
+}
+
+@layer components {
+  .signal-card-buy {
+    border-left: 3px solid #10b981;
+  }
+
+  .signal-card-sell {
+    border-left: 3px solid #ef4444;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-bg-card rounded;
+  }
+
+  .glass {
+    backdrop-filter: blur(12px);
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(55, 65, 81, 0.5);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(135deg, #0a0f1e 0%, #111827 100%);
+  }
+}
