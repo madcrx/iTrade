@@ -1,8 +1,8 @@
 import { ExternalLink, AlertTriangle, Info } from 'lucide-react'
 import { Modal } from '../ui/Modal'
 import { Button } from '../ui/Button'
-import { BROKERS, getBrokersForAsset } from '../../utils/deeplinks'
-import { formatPrice, formatPercent } from '../../utils/formatters'
+import { getBrokersForAsset } from '../../utils/deeplinks'
+import { formatPrice } from '../../utils/formatters'
 import type { Signal } from '../../api/signals'
 import { useAuthStore } from '../../store/authStore'
 

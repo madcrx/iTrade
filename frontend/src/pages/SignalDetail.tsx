@@ -12,7 +12,7 @@ import BrokerModal from '../components/broker/BrokerModal'
 import PriceChart from '../components/charts/PriceChart'
 import BacktestChart from '../components/charts/BacktestChart'
 import { Spinner } from '../components/ui/Spinner'
-import { formatPrice, formatPercent, formatRelativeTime } from '../utils/formatters'
+import { formatPrice, formatRelativeTime } from '../utils/formatters'
 import { clsx } from 'clsx'
 
 export default function SignalDetail() {
@@ -125,7 +125,7 @@ export default function SignalDetail() {
         {/* Left: chart + reasoning */}
         <div className="xl:col-span-2 space-y-6">
           {/* Price chart */}
-          <PriceChart symbol={symbol!} signal={latestSignal} />
+          <PriceChart symbol={symbol!} signals={[latestSignal]} />
 
           {/* Full reasoning */}
           <Card>

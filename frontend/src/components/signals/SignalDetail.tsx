@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeft, Clock, TrendingUp, Target, Shield, Zap } from 'lucide-react'
+import { ArrowLeft, Clock, TrendingUp, Target, Zap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { Signal } from '../../api/signals'
 import { AssetClassBadge, SignalTypeBadge } from '../ui/Badge'

@@ -39,12 +39,6 @@ export default function Dashboard() {
 
   const handleRefresh = () => setRefreshKey(k => k + 1)
 
-  const signalFiltersForFeed = {
-    ...(assetFilter !== 'ALL' && { asset_class: assetFilter }),
-    ...(signalFilter !== 'ALL' && { signal_type: signalFilter }),
-    limit: 50,
-  }
-
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
@@ -145,7 +139,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Signal feed — 2/3 width on xl */}
         <div className="xl:col-span-2">
-          <SignalFeed filters={signalFiltersForFeed} refreshKey={refreshKey} />
+          <SignalFeed />
         </div>
 
         {/* Watchlist sidebar — 1/3 width on xl */}

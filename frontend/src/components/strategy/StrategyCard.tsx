@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { FlaskConical, TrendingUp, BarChart2, ChevronRight, Zap } from 'lucide-react'
+import { FlaskConical, ChevronRight } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Strategy } from '../../api/strategies'

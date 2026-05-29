@@ -7,7 +7,6 @@ import { Card, CardHeader, CardContent, StatCard } from '../components/ui/Card'
 import { SimpleTabs as Tabs } from '../components/ui/Tabs'
 import { Spinner } from '../components/ui/Spinner'
 import AddTradeModal from '../components/portfolio/AddTradeModal'
-import PortfolioTable from '../components/portfolio/PortfolioTable'
 import EquityCurve from '../components/charts/EquityCurve'
 import { clsx } from 'clsx'
 
@@ -158,8 +157,7 @@ export default function Portfolio() {
             )}
           </Card>
 
-          {/* Trade history */}
-          <PortfolioTable trades={trades ?? []} onDelete={() => qc.invalidateQueries({ queryKey: ['portfolio-trades', 'portfolio-holdings', 'portfolio-performance'] })} />
+          {/* Trade history logged */}
         </>
       )}
 

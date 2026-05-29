@@ -21,7 +21,7 @@ interface EquityCurveProps {
   label?: string
 }
 
-export default function EquityCurve({ data, height = 200, color = '#3b82f6', label = 'Value' }: EquityCurveProps) {
+export default function EquityCurve({ data, height = 200, label = 'Value' }: EquityCurveProps) {
   const chartData = data.map((pt) => ({
     ...pt,
     date: formatShortDate(pt.date),

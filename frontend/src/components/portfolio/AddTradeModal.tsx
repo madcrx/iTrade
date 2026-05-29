@@ -2,18 +2,19 @@ import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { portfolioApi, type AddTradeRequest } from '../../api/portfolio'
 import { Modal } from '../ui/Modal'
-import { Input, Select, Textarea } from '../ui/Input'
+import { Input, Textarea } from '../ui/Input'
 import { Button } from '../ui/Button'
 import { format } from 'date-fns'
 
 interface AddTradeModalProps {
   isOpen: boolean
   onClose: () => void
+  onSuccess?: () => void
   defaultSignalId?: number
   defaultSymbol?: string
 }
 
-export default function AddTradeModal({ isOpen, onClose, defaultSignalId, defaultSymbol }: AddTradeModalProps) {
+export default function AddTradeModal({ isOpen, onClose, onSuccess, defaultSignalId, defaultSymbol }: AddTradeModalProps) {
   const queryClient = useQueryClient()
   const [form, setForm] = useState<AddTradeRequest>({
     symbol: defaultSymbol || '',
@@ -32,6 +33,7 @@ export default function AddTradeModal({ isOpen, onClose, defaultSignalId, defaul
       queryClient.invalidateQueries({ queryKey: ['trades'] })
       queryClient.invalidateQueries({ queryKey: ['holdings'] })
       queryClient.invalidateQueries({ queryKey: ['performance'] })
+      onSuccess?.()
       onClose()
     },
   })

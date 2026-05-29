@@ -8,7 +8,6 @@ import {
   Check,
   Brain,
   Globe,
-  ChevronRight,
 } from 'lucide-react'
 
 const FEATURES = [

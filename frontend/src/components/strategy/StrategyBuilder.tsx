@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Trash2, Play, GripVertical, ChevronDown } from 'lucide-react'
+import { Plus, Trash2, Play, GripVertical } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '../ui/Card'
 import { Button } from '../ui/Button'
 import { Select, Input } from '../ui/Input'

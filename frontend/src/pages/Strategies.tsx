@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { BarChart2, Cpu, TrendingUp, Activity, Info, ChevronDown, ChevronUp } from 'lucide-react'
+import { Cpu, TrendingUp, Activity, Info, ChevronDown, ChevronUp } from 'lucide-react'
 import { strategiesApi, type Strategy } from '../api/strategies'
 import { Card, CardContent } from '../components/ui/Card'
-import { Button } from '../components/ui/Button'
 import { Spinner } from '../components/ui/Spinner'
 import { clsx } from 'clsx'
 
