@@ -1,6 +1,6 @@
 from typing import Optional
 import pandas as pd
-import pandas_ta as ta
+from app.strategies import indicators as ta
 
 from app.strategies.base import BaseStrategy, BacktestResult, SignalResult
 
