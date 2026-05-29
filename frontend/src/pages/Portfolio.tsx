@@ -32,11 +32,6 @@ export default function Portfolio() {
     enabled: tab === 'live',
   })
 
-  const { data: trades } = useQuery({
-    queryKey: ['portfolio-trades'],
-    queryFn: () => portfolioApi.getTrades(),
-  })
-
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
