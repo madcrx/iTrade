@@ -12,6 +12,10 @@ from app.models.strategy import Strategy
 router = APIRouter(prefix="/strategies", tags=["strategies"])
 
 
+class StrategyToggle(BaseModel):
+    is_enabled: bool
+
+
 class StrategyResponse(BaseModel):
     id: int
     name: str
@@ -55,4 +59,27 @@ async def get_strategy(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Strategy '{name}' not found.",
         )
+    return strategy
+
+
+@router.patch("/{name}", response_model=StrategyResponse)
+async def toggle_strategy(
+    name: str,
+    body: StrategyToggle,
+    db: AsyncSession = Depends(get_db),
+    _: User = Depends(get_current_user),
+):
+    """Enable or disable a strategy."""
+    result = await db.execute(
+        select(Strategy).where(Strategy.name == name)
+    )
+    strategy = result.scalar_one_or_none()
+    if strategy is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Strategy '{name}' not found.",
+        )
+    strategy.is_enabled = body.is_enabled
+    await db.flush()
+    await db.refresh(strategy)
     return strategy

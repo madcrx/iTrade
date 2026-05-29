@@ -1,17 +1,60 @@
 from typing import Optional
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, func
 
 from app.core.database import get_db
 from app.core.security import get_current_user
 from app.models.user import User
 from app.models.signal import Signal
+from app.models.watchlist import WatchlistItem
+from app.models.strategy import Strategy
 from app.schemas.signal import SignalResponse, SignalGenerateRequest, SignalMarkActed
 from app.services.signal_engine import generate_signals, run_all_watchlist_signals
 
 router = APIRouter(prefix="/signals", tags=["signals"])
+
+
+@router.get("/stats/dashboard")
+async def dashboard_stats(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Summary counters for the dashboard header."""
+    today = datetime.now(timezone.utc).date()
+
+    signals_today = await db.scalar(
+        select(func.count(Signal.id)).where(
+            Signal.user_id == current_user.id,
+            func.date(Signal.created_at) == today,
+        )
+    )
+    active_signals = await db.scalar(
+        select(func.count(Signal.id)).where(
+            Signal.user_id == current_user.id,
+            Signal.acted_on.is_(False),
+        )
+    )
+    watchlist_count = await db.scalar(
+        select(func.count(WatchlistItem.id)).where(
+            WatchlistItem.user_id == current_user.id
+        )
+    )
+    active_strategies = await db.scalar(
+        select(func.count(Strategy.id)).where(Strategy.is_enabled.is_(True))
+    )
+
+    return {
+        "signals_today": signals_today or 0,
+        "active_signals": active_signals or 0,
+        "watchlist_count": watchlist_count or 0,
+        "active_strategies": active_strategies or 0,
+        "paper_value": 0.0,
+        "paper_pnl": 0.0,
+        "paper_pnl_pct": 0.0,
+    }
 
 
 @router.get("", response_model=list[SignalResponse])

@@ -103,4 +103,8 @@ export const backtestApi = {
   saveResults: async (_result: BacktestResult): Promise<void> => {
     // Results are saved server-side on runBacktest — no-op here
   },
+
+  deleteResult: async (_id: number): Promise<void> => {
+    // No delete endpoint server-side yet — no-op
+  },
 }
