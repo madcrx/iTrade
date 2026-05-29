@@ -39,7 +39,12 @@ export default function SignalFeed() {
 
   const DEMO_SIGNALS = useDemoSignals()
 
-  const displaySignals = signals?.length ? signals : DEMO_SIGNALS
+  const source = signals?.length ? signals : DEMO_SIGNALS
+  const displaySignals = source.filter((s) => {
+    if (assetFilter !== 'ALL' && s.asset_class !== assetFilter) return false
+    if (typeFilter !== 'ALL' && s.signal_type !== typeFilter) return false
+    return true
+  })
 
   return (
     <div className="space-y-4">
