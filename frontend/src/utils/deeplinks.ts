@@ -9,6 +9,7 @@ export type BrokerType =
   | 'coinbase'
   | 'webull'
   | 'tiger'
+  | 'cmc'
 
 export interface BrokerConfig {
   id: BrokerType
@@ -115,6 +116,15 @@ export const BROKERS: BrokerConfig[] = [
     assetClasses: ['US_STOCK', 'ASX_STOCK', 'ETF'],
     buildUrl: (symbol, action) =>
       `https://www.tigersecurities.com.au/trade?symbol=${symbol}&action=${action.toLowerCase()}`,
+  },
+  {
+    id: 'cmc',
+    name: 'CMC Markets',
+    logo: '⚫',
+    color: '#1a1a1a',
+    assetClasses: ['US_STOCK', 'ASX_STOCK', 'ETF'],
+    buildUrl: (symbol) =>
+      `https://invest.cmcmarkets.com.au/markets/${symbol.replace('.AX', '')}`,
   },
 ]
 

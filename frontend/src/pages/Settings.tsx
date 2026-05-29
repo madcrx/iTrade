@@ -20,6 +20,7 @@ const BROKERS = [
   { id: 'binance', name: 'Binance', region: 'Crypto', color: 'bg-yellow-400' },
   { id: 'webull', name: 'Webull', region: 'US', color: 'bg-teal-600' },
   { id: 'tiger', name: 'Tiger Brokers', region: 'US + ASX', color: 'bg-orange-500' },
+  { id: 'cmc', name: 'CMC Markets (AU)', region: 'AU + US', color: 'bg-gray-700' },
 ]
 
 const RISK_OPTIONS = [

@@ -156,6 +156,20 @@ async def run_all_watchlist_signals(
 
 STRATEGY_SEEDS = [
     {
+        "name": "ensemble",
+        "display_name": "AI Ensemble (Confluence)",
+        "description": (
+            "The flagship high-conviction strategy. Runs all other strategies and only "
+            "fires when at least two agree on the same direction, with confidence scaled "
+            "by the number of confirming strategies. Surfaces the best available trades "
+            "while filtering out weak single-indicator noise."
+        ),
+        "asset_classes": ["stocks", "asx", "crypto"],
+        "default_stop_loss_pct": 3.0,
+        "default_take_profit_pct": 7.0,
+        "parameters": {"min_agreement": 2, "confluence_bonus": 6.0},
+    },
+    {
         "name": "golden_cross",
         "display_name": "Golden Cross / Death Cross",
         "description": (

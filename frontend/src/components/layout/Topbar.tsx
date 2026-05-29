@@ -13,13 +13,15 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
-  const mockNotifications = [
+  const [mockNotifications, setMockNotifications] = useState([
     { id: 1, text: 'New BUY signal: AAPL', time: '2m ago', unread: true },
     { id: 2, text: 'BTC signal triggered — strong bullish', time: '15m ago', unread: true },
     { id: 3, text: 'Backtest complete: RSI Strategy on TSLA', time: '1h ago', unread: false },
-  ]
+  ])
 
   const unreadCount = mockNotifications.filter((n) => n.unread).length
+
+  const markAllRead = () => setMockNotifications((prev) => prev.map((n) => ({ ...n, unread: false })))
 
   return (
     <header className="h-16 bg-bg-secondary border-b border-border flex items-center px-4 gap-3 flex-shrink-0 sticky top-0 z-20">
@@ -78,7 +80,13 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                   ))}
                 </div>
                 <div className="px-4 py-2.5 border-t border-border">
-                  <button className="text-xs text-accent-blue hover:underline">Mark all as read</button>
+                  <button
+                  onClick={markAllRead}
+                  disabled={unreadCount === 0}
+                  className="text-xs text-accent-blue hover:underline disabled:opacity-40 disabled:no-underline"
+                >
+                  Mark all as read
+                </button>
                 </div>
               </div>
             </>
