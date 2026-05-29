@@ -18,7 +18,7 @@ export default function AddTradeModal({ isOpen, onClose, onSuccess, defaultSigna
   const queryClient = useQueryClient()
   const [form, setForm] = useState<AddTradeRequest>({
     symbol: defaultSymbol || '',
-    trade_type: 'BUY',
+    action: 'BUY',
     price: 0,
     quantity: 0,
     trade_date: format(new Date(), 'yyyy-MM-dd'),
@@ -67,9 +67,9 @@ export default function AddTradeModal({ isOpen, onClose, onSuccess, defaultSigna
             <button
               key={t}
               type="button"
-              onClick={() => update('trade_type', t)}
+              onClick={() => update('action', t)}
               className={`flex-1 py-2.5 text-sm font-bold rounded-xl border transition-all ${
-                form.trade_type === t
+                form.action === t
                   ? t === 'BUY'
                     ? 'bg-bull/10 text-bull border-bull/40'
                     : 'bg-bear/10 text-bear border-bear/40'
@@ -149,11 +149,11 @@ export default function AddTradeModal({ isOpen, onClose, onSuccess, defaultSigna
           </Button>
           <Button
             type="submit"
-            variant={form.trade_type === 'BUY' ? 'success' : 'danger'}
+            variant={form.action === 'BUY' ? 'success' : 'danger'}
             fullWidth
             loading={mutation.isPending}
           >
-            Log {form.trade_type} Trade
+            Log {form.action} Trade
           </Button>
         </div>
       </form>

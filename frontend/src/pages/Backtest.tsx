@@ -40,7 +40,7 @@ function KpiCard({ label, value, sub, positive, icon }: { label: string; value: 
 
 export default function Backtest() {
   const [symbol, setSymbol] = useState('')
-  const [strategyId, setStrategyId] = useState<number | null>(null)
+  const [strategyName, setStrategyName] = useState<string | null>(null)
   const [period, setPeriod] = useState<'3m' | '6m' | '1y' | '2y' | '5y'>('1y')
   const [capital, setCapital] = useState('10000')
   const [result, setResult] = useState<BacktestResult | null>(null)
@@ -54,7 +54,7 @@ export default function Backtest() {
   const runMutation = useMutation({
     mutationFn: () => backtestApi.runBacktest({
       symbol: symbol.toUpperCase(),
-      strategy_id: strategyId!,
+      strategy: strategyName!,
       period,
       initial_capital: parseFloat(capital) || 10000,
     }),
@@ -64,7 +64,7 @@ export default function Backtest() {
     },
   })
 
-  const canRun = symbol.length >= 1 && strategyId !== null
+  const canRun = symbol.length >= 1 && strategyName !== null
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -112,15 +112,15 @@ export default function Backtest() {
                   {strategies?.map(s => (
                     <button
                       key={s.id}
-                      onClick={() => setStrategyId(s.id)}
+                      onClick={() => setStrategyName(s.name)}
                       className={clsx(
                         'w-full flex items-center justify-between p-3 rounded-lg border text-left transition-colors',
-                        strategyId === s.id
+                        strategyName === s.name
                           ? 'border-accent-blue bg-accent-blue/5 text-text-primary'
                           : 'border-border hover:border-border-light text-text-secondary'
                       )}
                     >
-                      <span className="text-sm font-medium">{s.name}</span>
+                      <span className="text-sm font-medium">{s.display_name ?? s.name}</span>
                       <span className={clsx(
                         'text-xs',
                         s.win_rate >= 60 ? 'text-bull' : s.win_rate >= 45 ? 'text-yellow-400' : 'text-bear'
