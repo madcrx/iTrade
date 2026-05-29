@@ -30,9 +30,9 @@ def get_url() -> str:
             "DATABASE_URL environment variable is not set. "
             "Copy .env.example to .env and fill in the values."
         )
-    # Alembic needs a sync driver for schema inspection; swap asyncpg → psycopg2
-    # for the migration engine only.
-    return url.replace("postgresql+asyncpg://", "postgresql+psycopg2://")
+    # Migrations run through an async engine (run_async_migrations), so keep the
+    # asyncpg driver — the app does not install the sync psycopg2 driver.
+    return url
 
 
 # ─── Offline migrations (generate SQL without a live DB) ─────────────────────
