@@ -24,7 +24,7 @@ export default function StrategyCard({ strategy, onBacktest, onViewDetail }: Str
   const typeConfig = TYPE_CONFIG[strategy.strategy_type]
 
   const toggleMutation = useMutation({
-    mutationFn: (enabled: boolean) => strategiesApi.toggleStrategy(strategy.id, enabled),
+    mutationFn: (enabled: boolean) => strategiesApi.toggleStrategy(strategy.name, enabled),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['strategies'] }),
   })
 

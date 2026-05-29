@@ -9,7 +9,7 @@ import { Button } from '../components/ui/Button'
 import { Card, CardHeader, CardContent } from '../components/ui/Card'
 import { AssetClassBadge } from '../components/ui/Badge'
 import BrokerModal from '../components/broker/BrokerModal'
-import PriceChart from '../components/charts/PriceChart'
+import { PriceChart } from '../components/charts/PriceChart'
 import BacktestChart from '../components/charts/BacktestChart'
 import { Spinner } from '../components/ui/Spinner'
 import { formatPrice, formatRelativeTime } from '../utils/formatters'
@@ -42,7 +42,7 @@ export default function SignalDetail() {
       if (!strategy) return null
       return backtestApi.runBacktest({
         symbol: symbol!,
-        strategy_id: strategy.id,
+        strategy: strategy.name,
         period: backtestPeriod,
         initial_capital: 10000,
       })

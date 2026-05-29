@@ -30,7 +30,7 @@ function StrategyCard({ strategy }: { strategy: Strategy }) {
   const [expanded, setExpanded] = useState(false)
 
   const toggleMutation = useMutation({
-    mutationFn: () => strategiesApi.toggleStrategy(strategy.id, !strategy.is_enabled),
+    mutationFn: () => strategiesApi.toggleStrategy(strategy.name, !strategy.is_enabled),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['strategies'] }),
   })
 
