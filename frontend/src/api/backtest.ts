@@ -89,11 +89,11 @@ function normalise(raw: any): BacktestResult {
   const r = raw.results ?? {}
   const initialCapital = Number(r.initial_capital ?? 10000)
   const trades = Array.isArray(r.trades) ? r.trades : []
-  const normalisedTrades = trades.map((t: any, i: number) => normaliseTrade(t, i, initialCapital))
-  const winning = normalisedTrades.filter((t) => t.pnl_pct > 0)
-  const losing = normalisedTrades.filter((t) => t.pnl_pct <= 0)
-  const grossProfit = winning.reduce((s, t) => s + Math.abs(t.pnl), 0)
-  const grossLoss = losing.reduce((s, t) => s + Math.abs(t.pnl), 0)
+  const normalisedTrades: BacktestTrade[] = trades.map((t: any, i: number) => normaliseTrade(t, i, initialCapital))
+  const winning = normalisedTrades.filter((t: BacktestTrade) => t.pnl_pct > 0)
+  const losing = normalisedTrades.filter((t: BacktestTrade) => t.pnl_pct <= 0)
+  const grossProfit = winning.reduce((s: number, t: BacktestTrade) => s + Math.abs(t.pnl), 0)
+  const grossLoss = losing.reduce((s: number, t: BacktestTrade) => s + Math.abs(t.pnl), 0)
   return {
     id: raw.id ?? 0,
     symbol: raw.symbol ?? r.symbol ?? '',
