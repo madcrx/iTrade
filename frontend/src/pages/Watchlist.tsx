@@ -32,8 +32,14 @@ export default function Watchlist() {
     mutationFn: (symbol: string) => watchlistApi.addSymbol(symbol),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['watchlist'] })
+      qc.invalidateQueries({ queryKey: ['watchlist-mini'] })
       setSearchQuery('')
       setSearchResults([])
+      setAddingSymbol('')
+    },
+    onError: (err: any) => {
+      const msg = err?.response?.data?.detail ?? 'Failed to add symbol'
+      alert(msg)
       setAddingSymbol('')
     },
   })
