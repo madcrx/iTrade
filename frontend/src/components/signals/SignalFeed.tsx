@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Filter, RefreshCw, Zap, Sparkles } from 'lucide-react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { signalsApi, type SignalFilters, type AssetClass, type SignalType } from '../../api/signals'
+import { watchlistApi } from '../../api/watchlist'
 import SignalCard from './SignalCard'
 import { SkeletonCard } from '../ui/Spinner'
 import { Button } from '../ui/Button'
@@ -41,6 +42,21 @@ export default function SignalFeed() {
     mutationFn: () => signalsApi.generateWatchlistSignals(),
     onSuccess: () => refetch(),
   })
+
+  const { data: watchlist } = useQuery({
+    queryKey: ['watchlist-mini'],
+    queryFn: () => watchlistApi.getWatchlist(),
+  })
+
+  const autoTriggered = useRef(false)
+  useEffect(() => {
+    if (autoTriggered.current) return
+    if (isLoading) return
+    if (!watchlist || watchlist.length === 0) return
+    if ((signals?.length ?? 0) > 0) return
+    autoTriggered.current = true
+    generateMutation.mutate()
+  }, [watchlist, signals, isLoading])
 
   const source = signals ?? []
   const displaySignals = source.filter((s) => {
