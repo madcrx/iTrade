@@ -42,7 +42,19 @@ export const watchlistApi = {
     asset_class: AssetClass
     exchange: string
   }>> => {
-    const resp = await apiClient.get('/market/search', { params: { q: query } })
-    return resp.data
+    const resp = await apiClient.get<any>('/market/search', { params: { q: query } })
+    const raw = Array.isArray(resp.data) ? resp.data : (resp.data?.results ?? [])
+    const map: Record<string, AssetClass> = {
+      asx: 'ASX_STOCK',
+      crypto: 'CRYPTO',
+      stock: 'US_STOCK',
+      etf: 'ETF',
+    }
+    return raw.map((r: any) => ({
+      symbol: r.symbol,
+      name: r.name ?? r.symbol,
+      exchange: r.exchange ?? '',
+      asset_class: map[(r.asset_type ?? r.asset_class ?? 'stock').toLowerCase()] ?? 'US_STOCK',
+    }))
   },
 }
