@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.core.config import settings
-from app.core.database import create_tables, AsyncSessionLocal, engine
+from app.core.database import create_tables, AsyncSessionLocal
 
 logger = logging.getLogger(__name__)
 
@@ -30,11 +30,8 @@ async def lifespan(app: FastAPI):
     """Initialise DB tables and seed default strategies on startup."""
     logger.info("iTrade backend starting up...")
 
-    # Create tables (idempotent — skips existing tables)
+    # Create tables and apply additive migrations (idempotent)
     await create_tables()
-
-    # Apply additive schema changes that create_all won't handle
-    await _migrate_schema()
 
     # Seed default strategies
     async with AsyncSessionLocal() as db:
@@ -49,22 +46,6 @@ async def lifespan(app: FastAPI):
     logger.info("iTrade backend shutting down.")
 
 
-async def _migrate_schema() -> None:
-    """Idempotent additive migrations — runs after create_all."""
-    from sqlalchemy import text
-    migrations = [
-        # Add enabled_strategies JSON column to watchlist_items if missing
-        """
-        ALTER TABLE watchlist_items
-        ADD COLUMN IF NOT EXISTS enabled_strategies JSONB NOT NULL DEFAULT '[]'::jsonb;
-        """,
-    ]
-    async with engine.begin() as conn:
-        for sql in migrations:
-            try:
-                await conn.execute(text(sql.strip()))
-            except Exception as e:
-                logger.warning("Schema migration skipped: %s", e)
 
 
 # ---------------------------------------------------------------------------

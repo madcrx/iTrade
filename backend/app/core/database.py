@@ -35,6 +35,12 @@ async def get_db() -> AsyncSession:
 
 
 async def create_tables():
-    """Create all tables. Used on startup in development."""
+    """Create all tables and run additive schema migrations. Idempotent."""
+    from sqlalchemy import text
+    additive_migrations = [
+        "ALTER TABLE watchlist_items ADD COLUMN IF NOT EXISTS enabled_strategies JSONB NOT NULL DEFAULT '[]'::jsonb",
+    ]
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+        for sql in additive_migrations:
+            await conn.execute(text(sql))

@@ -34,6 +34,7 @@ async def generate_signals(
     strategies: Optional[list[str]] = None,
     db: Optional[AsyncSession] = None,
     user_id: Optional[int] = None,
+    persist: bool = True,
 ) -> list[Signal]:
     """
     Run the requested strategies (or all if None) against `symbol`.
@@ -92,7 +93,7 @@ async def generate_signals(
         )
         signals.append(signal)
 
-    if db is not None and user_id is not None:
+    if persist and db is not None and user_id is not None:
         for signal in signals:
             db.add(signal)
         try:
@@ -130,11 +131,14 @@ async def run_all_watchlist_signals(
 
     async def _generate_for_symbol(item: WatchlistItem) -> list[Signal]:
         async with semaphore:
+            # persist=False — DB writes happen sequentially below to avoid
+            # concurrent-flush errors on a shared async session.
             return await generate_signals(
                 symbol=item.symbol,
                 strategies=strategies,
-                db=db,
+                db=None,
                 user_id=user_id,
+                persist=False,
             )
 
     tasks = [_generate_for_symbol(item) for item in watchlist_items]
@@ -146,6 +150,17 @@ async def run_all_watchlist_signals(
             all_signals.extend(r)
         elif isinstance(r, Exception):
             logger.warning("Signal generation error: %s", r)
+
+    # Persist all signals once, serially, on the single shared session.
+    if all_signals:
+        for signal in all_signals:
+            signal.user_id = user_id
+            db.add(signal)
+        try:
+            await db.flush()
+        except Exception as e:
+            logger.error("Failed to persist watchlist signals: %s", e)
+            await db.rollback()
 
     return all_signals
 
