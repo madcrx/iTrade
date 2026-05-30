@@ -39,7 +39,7 @@ export function useDashboardStats() {
 export function useGenerateSignals() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (symbol: string) => signalsApi.generateSignals(symbol),
+    mutationFn: (symbols: string[]) => signalsApi.generateSignals(symbols),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['signals'] })
     },
