@@ -38,9 +38,9 @@ async def run_backtest(
 
     # Normalise period: map short codes to yfinance-compatible strings
     period_map = {
-        "1mo": "1mo",
-        "3mo": "3mo",
-        "6mo": "6mo",
+        "1mo": "1mo", "1m": "1mo",
+        "3mo": "3mo", "3m": "3mo",
+        "6mo": "6mo", "6m": "6mo",
         "1y": "1y",
         "2y": "2y",
         "5y": "5y",

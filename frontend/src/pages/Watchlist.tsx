@@ -111,6 +111,34 @@ export default function Watchlist() {
             </div>
 
             {/* Search dropdown */}
+            {searchQuery.length >= 1 && !searching && searchResults.length === 0 && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                <button
+                  onClick={() => {
+                    const sym = searchQuery.toUpperCase().trim()
+                    if (!sym) return
+                    setAddingSymbol(sym)
+                    addMutation.mutate(sym)
+                  }}
+                  disabled={addMutation.isPending}
+                  className="w-full flex items-center justify-between px-4 py-3 hover:bg-bg-hover transition-colors text-left disabled:opacity-60"
+                >
+                  <div>
+                    <p className="font-semibold text-text-primary text-sm">
+                      Add "{searchQuery.toUpperCase()}" directly
+                    </p>
+                    <p className="text-xs text-text-secondary">
+                      No search matches — add as a custom ticker (e.g. ATS.AX, BHP.AX, BTC-USD)
+                    </p>
+                  </div>
+                  {addMutation.isPending && addingSymbol === searchQuery.toUpperCase() ? (
+                    <Spinner size="sm" />
+                  ) : (
+                    <Plus className="h-4 w-4 text-accent-blue" />
+                  )}
+                </button>
+              </div>
+            )}
             {searchResults.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
                 {searchResults.slice(0, 8).map(result => {
