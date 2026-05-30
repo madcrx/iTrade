@@ -5,8 +5,10 @@ from app.strategies.macd_crossover import MACDCrossoverStrategy
 from app.strategies.bollinger_bands import BollingerBandsStrategy
 from app.strategies.volume_spike import VolumeSpikeStrategy
 from app.strategies.ml_classifier import MLClassifierStrategy
+from app.strategies.ensemble import EnsembleStrategy
 
 ALL_STRATEGIES = [
+    EnsembleStrategy(),
     GoldenCrossStrategy(),
     RSIReversalStrategy(),
     MomentumStrategy(),
@@ -19,6 +21,7 @@ ALL_STRATEGIES = [
 STRATEGY_MAP = {s.name: s for s in ALL_STRATEGIES}
 
 __all__ = [
+    "EnsembleStrategy",
     "GoldenCrossStrategy",
     "RSIReversalStrategy",
     "MomentumStrategy",
