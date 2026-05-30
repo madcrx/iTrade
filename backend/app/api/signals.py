@@ -145,7 +145,7 @@ async def generate(
 
 @router.post("/generate/watchlist", response_model=list[SignalResponse])
 async def generate_for_watchlist(
-    strategies: Optional[list[str]] = None,
+    strategies: Optional[list[str]] = Query(None),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
